@@ -1,6 +1,6 @@
-# flutter_money_tool
+# flutter_stock_tool
 
-A new Flutter application.
+基于Flutter2.2.0框架开发一款兼容Windows、macOS桌面股票看盘小工具，方便关注股票的涨跌幅，永远不会错过某个买卖点。
 
 ## Getting Started
 
@@ -15,5 +15,5 @@ For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-##设置支持桌面
-* https://flutter.dev/desktop#add-desktop-support-to-an-existing-flutter-app
+##设置桌面支持
+* https://flutter.cn/desktop#add-desktop-support-to-an-existing-flutter-app
