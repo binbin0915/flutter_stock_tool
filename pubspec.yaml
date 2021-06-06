@@ -36,8 +36,6 @@ dependencies:
   logger: ^1.0.0
   # 缓存 - https://pub.flutter-io.cn/packages/shared_preferences
   shared_preferences: ^2.0.6
-  # 缓存 - https://pub.flutter-io.cn/packages/sqflite
-  sqflite: ^2.0.0+3
   # url跳转 - https://pub.flutter-io.cn/packages/url_launcher
   url_launcher: ^6.0.4
   # https://pub.flutter-io.cn/packages/connectivity
