@@ -11,18 +11,20 @@ import 'package:flutter_money_tool/util/object_util.dart';
 import '../constant.dart';
 
 class HomeDao {
-  static Future<RealtimeList> realtimeList({List<String> symbolList}) async {
+  static Future<RealtimeList?> realtimeList({required List<String> symbolList}) async {
     try{
       String realtimeListUrl = Address.realtimeList(symbolList: symbolList);
       var res = await httpManager.netFetch(realtimeListUrl, null, null, null);
       if (res != null && res.result) {
         return RealtimeList.fromJson(res.data);
       }
-    }catch(e){}
+    }catch(e){
+      print("HomeDao realtimeList e==$e");
+    }
     return null;
   }
 
-  static Future<StockList> stockList() async {
+  static Future<StockList?> stockList() async {
     try{
       var res = await httpManager.netFetch(Address.stockList(), null, null, null);
       if (res != null && res.result) {
@@ -31,13 +33,15 @@ class HomeDao {
         Pref.setString(PrefKey.CACHE_KEY_STOCK_LIST, data);
         return StockList.fromJson(res.data);
       }
-    }catch(e){}
+    }catch(e){
+      print("HomeDao stockList e==$e");
+    }
     return null;
   }
 
-  static Future<List<StockData>> searchStocks(String text, {int maxCount}) async{
+  static Future<List<StockData>> searchStocks(String text, {required int maxCount}) async{
     //先从缓存取，再刷新接口
-    List<StockData> _stockAllList;
+    List<StockData> _stockAllList = [];
     String cacheStockList =
         await Pref.getString(PrefKey.CACHE_KEY_STOCK_LIST, "");
     if (ObjectUtil.isNotEmpty(cacheStockList)) {
@@ -46,16 +50,14 @@ class HomeDao {
     }
 
     List<StockData> list = [];
-    if (text != null && _stockAllList!=null) {
-      text = text.trim();
-      if (text.isNotEmpty) {
-        for (var item in _stockAllList) {
-          if (item.name.contains(text) || item.code.contains(text)) {
-            list.add(item);
-          }
-          if (list.length >= maxCount) {
-            break;
-          }
+    text = text.trim();
+    if (text.isNotEmpty) {
+      for (var item in _stockAllList) {
+        if (item.name.contains(text) || item.code.contains(text)) {
+          list.add(item);
+        }
+        if (list.length >= maxCount) {
+          break;
         }
       }
     }

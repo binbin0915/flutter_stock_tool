@@ -3,7 +3,7 @@
 class Address {
 
   ///实时数据
-  static realtimeList({List<String> symbolList}){
+  static realtimeList({required List<String> symbolList}){
     String symbolStr = "";
     for(int i=0;i<symbolList.length;i++){
       if(i==symbolList.length-1){
