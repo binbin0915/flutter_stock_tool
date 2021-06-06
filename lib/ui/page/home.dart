@@ -243,7 +243,6 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: 80,
             child: Text(
               "$symbolCode",
               style: TextStyle(fontSize: 12, color: Color(0xffbbbbbb)),
