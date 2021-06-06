@@ -1,6 +1,6 @@
 
 class NetResEntity<T> {
-  T _data;
+  late T _data;
   var _errorData;
 
   bool _success;

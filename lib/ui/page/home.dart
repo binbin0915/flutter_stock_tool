@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_money_tool/common/constant.dart';
 import 'package:flutter_money_tool/common/dao/HomeDao.dart';
-import 'package:flutter_money_tool/model/realtime.dart';
+import 'package:flutter_money_tool/model/realtime_data.dart';
 import 'package:flutter_money_tool/model/stock_list.dart';
 import 'package:flutter_money_tool/storage/pref.dart';
 import 'package:flutter_money_tool/ui/page/stock_search.dart';
@@ -13,14 +13,14 @@ import 'package:flutter_money_tool/ui/widget/my_search.dart' as mySearchView;
 import 'about.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key}) : super(key: key);
+  MyHomePage({Key? key}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<Data> _realtimeList; //实时数据list
+  List<RealtimeData> _realtimeList = []; //实时数据list
 
   List<StockData> _stockList = []; //所有代码和名称
   //是否暂停轮询请求
@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         _stockList = StockList.fromJson(decodeData).data;
       }
       var stockListData = await HomeDao.stockList();
-      _stockList = stockListData.data;
+      _stockList = stockListData!.data;
       setState(() {});
     } catch (e) {
       Pref.setString(PrefKey.CACHE_KEY_STOCK_LIST, "");
@@ -62,13 +62,17 @@ class _MyHomePageState extends State<MyHomePage> {
         //转成list,add进入
         var decode = json.decode(optionalListStr);
         for (int i = 0; i < decode.length; i++) {
-          symbolList.add(decode[i]);
+          if(!symbolList.contains(decode[i])){
+            symbolList.add(decode[i]);
+          }
         }
         var realtimeData = await HomeDao.realtimeList(symbolList: symbolList);
         if (!_isStopRequest) {
           //延迟1s继续刷新实时接口
           _onRealtimeTimer();
-          _realtimeList = realtimeData.data;
+          if(ObjectUtil.isNotEmpty(realtimeData)){
+            _realtimeList = realtimeData!.data!;
+          }
           setState(() {});
         }
       }
@@ -95,14 +99,14 @@ class _MyHomePageState extends State<MyHomePage> {
         if (ObjectUtil.isNotEmpty(optionalListStr)) {
           //转成list,add进入
           var decode = json.decode(optionalListStr);
-          decode.add(stockData.code.toUpperCase());
+          decode.add(stockData!.code.toUpperCase());
           for (int i = 0; i < decode.length; i++) {
             optionalList.add(decode[i]);
           }
           // optionalList.addAll(decode);
         } else {
           //add list
-          optionalList.add(stockData.code.toUpperCase());
+          optionalList.add(stockData!.code.toUpperCase());
         }
 
         //转json字符串,缓存
@@ -138,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
     String optionalListStr =
         await Pref.getString(PrefKey.CACHE_KEY_OPTIONAL_LIST, "");
     if (ObjectUtil.isNotEmpty(optionalListStr) &&
-        optionalListStr.contains(symbolCode.toUpperCase())) {
+        optionalListStr.contains(symbolCode!.toUpperCase())) {
       //转成list,移除
       var decode = json.decode(optionalListStr);
       decode.remove(symbolCode.toUpperCase());
@@ -172,7 +176,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Column(
       children: [
         Expanded(
-            child: _realtimeList == null || _realtimeList.length == 0
+            child: _realtimeList.length == 0
                 ? Container(
                     child: Image.asset(
                       "static/images/not_data.png",
@@ -227,7 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget _listItem(int index) {
     var symbolCode = _realtimeList[index].symbol;
     for (var item in _stockList) {
-      if (symbolCode.toLowerCase().contains(item.code.toLowerCase())) {
+      if (symbolCode!.toLowerCase().contains(item.code.toLowerCase())) {
         symbolCode = item.name;
         print("symbolCode==" + symbolCode);
         break;
@@ -239,7 +243,6 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: 80,
             child: Text(
               "$symbolCode",
               style: TextStyle(fontSize: 12, color: Color(0xffbbbbbb)),

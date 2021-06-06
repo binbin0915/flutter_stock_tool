@@ -4,11 +4,11 @@ import 'package:flutter_money_tool/model/stock_list.dart';
 import 'package:flutter_money_tool/ui/widget/my_search.dart' as mySearchView;
 
 class StockSearchDelegate extends mySearchView.SearchDelegate<StockData> {
-  BuildContext _context;
+  late BuildContext _context;
 
-  List<StockData> _stockDataList;
+  late List<StockData> _stockDataList;
   StockSearchDelegate({
-    String hintText,
+    required String hintText,
   }) : super(
           searchFieldLabel: hintText,
           keyboardType: TextInputType.text,
@@ -70,7 +70,7 @@ class StockSearchDelegate extends mySearchView.SearchDelegate<StockData> {
               return Container();
             } else {
               if (snapshot.hasData) {
-                _stockDataList = snapshot.data;
+                _stockDataList = snapshot.data!;
                 return Container(
                   child: Wrap(
                     // runSpacing: 0,

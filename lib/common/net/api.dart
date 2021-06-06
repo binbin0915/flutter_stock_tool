@@ -1,14 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_money_tool/common/net/code.dart';
+import 'package:flutter_money_tool/common/net/interceptors/error_interceptor.dart';
+import 'package:flutter_money_tool/common/net/interceptors/header_interceptor.dart';
 
 import 'dart:collection';
 
-import 'code.dart';
-import 'interceptors/error_interceptor.dart';
-import 'interceptors/header_interceptor.dart';
-import 'interceptors/log_interceptor.dart';
-import 'interceptors/response_interceptor.dart';
-import 'interceptors/token_interceptor.dart';
-import 'result_data.dart';
+import 'package:flutter_money_tool/common/net/interceptors/log_interceptor.dart';
+import 'package:flutter_money_tool/common/net/interceptors/response_interceptor.dart';
+import 'package:flutter_money_tool/common/net/result_data.dart';
 
 ///http请求
 class HttpManager {
@@ -26,7 +25,7 @@ class HttpManager {
 
     _dio.interceptors.add(new LogsInterceptors());
 
-    _dio.interceptors.add(new ErrorInterceptors(_dio));
+    // _dio.interceptors.add(new ErrorInterceptors(_dio));
 
     _dio.interceptors.add(new ResponseInterceptors());
   }
@@ -36,8 +35,8 @@ class HttpManager {
   ///[ params] 请求参数
   ///[ header] 外加头
   ///[ option] 配置
-  Future<ResultData> netFetch(
-      url, params, Map<String, dynamic> header, Options option,
+  Future<ResultData?> netFetch(
+      url, params, Map<String, dynamic>? header, Options? option,
       {noTip = false}) async {
     Map<String, dynamic> headers = new HashMap();
     if (header != null) {
@@ -52,7 +51,7 @@ class HttpManager {
     }
 
     resultError(DioError e) {
-      Response errorResponse;
+      Response? errorResponse;
       if (e.response != null) {
         errorResponse = e.response;
       } else {
@@ -60,10 +59,10 @@ class HttpManager {
       }
       if (e.type == DioErrorType.connectTimeout ||
           e.type == DioErrorType.receiveTimeout) {
-        errorResponse.statusCode = Code.NETWORK_TIMEOUT;
+        errorResponse!.statusCode = Code.NETWORK_TIMEOUT;
       }
       return new ResultData(
-          Code.errorHandleFunction(errorResponse.statusCode, e.message, noTip),
+          Code.errorHandleFunction(errorResponse!.statusCode, e.message, noTip),
           false,
           errorResponse.statusCode);
     }
@@ -80,7 +79,7 @@ class HttpManager {
     return response.data;
   }
 
-  /////清除授权
+  // ///清除授权
   // clearAuthorization() {
   //   _tokenInterceptors.clearAuthorization();
   // }

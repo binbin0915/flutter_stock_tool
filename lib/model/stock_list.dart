@@ -1,10 +1,10 @@
 class StockList {
-  int _code;
-  String _msg;
-  int _time;
-  List<StockData> _data;
+  late int _code;
+  late String _msg;
+  late int _time;
+  late List<StockData> _data;
 
-  StockList({int code, String msg, int time, List<StockData> data}) {
+  StockList({required int code, required String msg, required int time, required List<StockData> data}) {
     this._code = code;
     this._msg = msg;
     this._time = time;
@@ -25,7 +25,7 @@ class StockList {
     _msg = json['msg'];
     _time = json['time'];
     if (json['data'] != null) {
-      _data = new List<StockData>();
+      _data = <StockData>[];
       json['data'].forEach((v) {
         _data.add(new StockData.fromJson(v));
       });
@@ -45,11 +45,11 @@ class StockList {
 }
 
 class StockData {
-  String _id;
-  String _code;
-  String _name;
+  late String _id;
+  late String _code;
+  late String _name;
 
-  StockData({String id, String code, String name}) {
+  StockData({required String id, required String code, required String name}) {
     this._id = id;
     this._code = code;
     this._name = name;

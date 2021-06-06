@@ -88,7 +88,7 @@ class LogsInterceptors extends InterceptorsWrapper {
     //   print('请求异常信息: ' + (err.response?.toString() ?? ""));
     // }
     try {
-      addLogic(sHttpErrorUrl, err.request.path);
+      addLogic(sHttpErrorUrl, err.request!.path);
       var errors = Map<String, dynamic>();
       errors["error"] = err.message;
       addLogic(sHttpError, errors);
