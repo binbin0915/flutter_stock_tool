@@ -1,6 +1,10 @@
-# flutter_stock_tool
+# 简述
 
 基于Flutter2.2.0框架开发一款兼容Windows、macOS桌面股票看盘小工具，方便关注股票的涨跌幅，永远不会错过某个买卖点。
+
+# 安装包下载地址
+* macOS版：https://github.com/ChessLuo/flutter_stock_tool/releases/download/v1.0.0/stock_macos_v1.0.0.zip
+* Windows版：https://github.com/ChessLuo/flutter_stock_tool/releases/download/v1.0.0/stock_windows_v1.0.0.zip
 
 ## Getting Started
 
