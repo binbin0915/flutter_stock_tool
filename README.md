@@ -27,6 +27,7 @@ samples, guidance on mobile development, and a full API reference.
 |空主页|空搜索|主页列表|
 |:---:|:---:|:---:|
 |<img border="1" src="./screenshots/stock1.jpg" width="150" height="auto">|<img border="1" src="./screenshots/stock2.jpg" width="150" height="auto">|<img border="1" src="./screenshots/stock3.jpg" width="150" height="auto">|
+
 |删除列表|关于||
 |:---:|:---:|:---:|
 |<img border="1" src="./screenshots/stock4.jpg" width="150" height="auto">|<img border="1" src="./screenshots/stock5.jpg" width="150" height="auto">|
